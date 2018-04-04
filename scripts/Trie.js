@@ -56,4 +56,9 @@ export default class Trie {
       return this.getSuggestions(prefix + letter, currentNode.childrenObj[letter])
     })
   }
+
+  populate(wordsArray) {
+    wordsArray.forEach(word => this.insert(word))
+  }
+
 }

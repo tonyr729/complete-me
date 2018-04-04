@@ -1,13 +1,13 @@
 import Node from './Node';
 
-export default class Trie {
+export default class PrefixTrie {
   constructor() {
     this.root = new Node();
     this.wordCount = 0;
   }
 
   insert(word, currentNode = this.root) {
-    console.log(word.substr(1));
+    word = word.toLowerCase();
     if (!word.length) {
       if (!currentNode.isWord) {
         this.wordCount++;

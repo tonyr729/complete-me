@@ -1,13 +1,14 @@
-import Node from './Node';
+const Node = require('../scripts/Node.js');
 
-export default class Trie {
+class PrefixTrie {
   constructor() {
     this.root = new Node();
     this.wordCount = 0;
+    this.suggestionArray = [];
   }
 
   insert(word, currentNode = this.root) {
-    console.log(word.substr(1));
+    word = word.toLowerCase();
     if (!word.length) {
       if (!currentNode.isWord) {
         this.wordCount++;
@@ -24,6 +25,7 @@ export default class Trie {
 
     currentNode = currentNode.childrenNode[word[0]];
 
+
     this.insert(word.substr(1), currentNode)
   }
 
@@ -32,11 +34,14 @@ export default class Trie {
   }
 
   suggest(word, currentNode = this.root) {
+    word = word.toLowerCase();
     this.suggestionArray = [];
 
     for (let i = 0; i < word.length; i++) {
-      if (currentNode.childrenObj[word[i]]) {
-        currentNode = currentNode.childrenObj[word[i]];
+      if (currentNode.childrenNode[word[i]]) {
+        currentNode = currentNode.childrenNode[word[i]];
+      } else {
+        return null;
       }
     }
 
@@ -45,15 +50,22 @@ export default class Trie {
   }
 
 
-  getSuggestions(prefix, currentNode = this.root) {
+  getSuggestions(prefix, currentNode) {
     
-    if (currentNode.isAWord) {
+    if (currentNode.isWord) {
       this.suggestionArray.push(prefix)
     }
 
-    let letters = Object.keys(currentNode.childrenObj)
+    let letters = Object.keys(currentNode.childrenNode)
     letters.forEach(letter => {
-      return this.getSuggestions(prefix + letter, currentNode.childrenObj[letter])
+      return this.getSuggestions(prefix + letter, currentNode.childrenNode[letter])
     })
   }
+
+  populate(array) {
+    array.forEach(word => this.insert(word))
+  }
 }
+
+
+module.exports = PrefixTrie;

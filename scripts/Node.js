@@ -3,6 +3,7 @@ class Node {
     this.value = null;
     this.childrenNode = {};
     this.isWord = false;
+    this.popularityLevel = 0;
   }
 };
 

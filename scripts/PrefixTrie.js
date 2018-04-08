@@ -49,7 +49,7 @@ class PrefixTrie {
     let sortedSuggestion = this.suggestionArray.sort((a, b) => b.popularityLevel - a.popularityLevel )
     let result = sortedSuggestion.map(object => object.word);
     return result;
-  }
+  };
 
   getSuggestions(prefix, currentNode) {
     
@@ -61,11 +61,12 @@ class PrefixTrie {
     letters.forEach(letter => {
       return this.getSuggestions(prefix + letter, currentNode.childrenNode[letter])
     })
-  }
+  };
+
 
   populate(array) {
     array.forEach(word => this.insert(word))
-  }
+  };
 
   select(word , currentNode = this.root) {
     word = word.toLowerCase();
@@ -79,7 +80,7 @@ class PrefixTrie {
     }
       currentNode.popularityLevel++
   }
-}
+};
 
 
 module.exports = PrefixTrie;
